@@ -1,7 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
-const endpoint = import.meta.env.PUBLIC_API_URL;
 ---
 
 <Layout title="PetitesURL">
@@ -85,12 +83,12 @@ const endpoint = import.meta.env.PUBLIC_API_URL;
     </div>
   </main>
 
-  <script define:vars={{ endpoint }}>
-    const button = document.getElementById("submit");
-    const span = document.getElementById("shorturl");
-    const result = document.getElementById("result");
+  <script>
+    const button = document.getElementById("submit") as HTMLButtonElement;
+    const span = document.getElementById("shorturl") as HTMLSpanElement;
+    const result = document.getElementById("result") as HTMLDivElement;
 
-    const copy = document.getElementById("copy");
+    const copy = document.getElementById("copy") as HTMLButtonElement;
     const clipboardDefault = document.getElementsByClassName(
       "js-clipboard-default"
     );
@@ -103,7 +101,7 @@ const endpoint = import.meta.env.PUBLIC_API_URL;
       result.classList.add("hidden");
       result.classList.remove("inline-flex");
       try {
-        const urlElement = document.getElementById("url");
+        const urlElement = document.getElementById("url") as HTMLInputElement;
         const url = urlElement ? urlElement.value : "";
 
         if (url.length < 1) {
@@ -112,7 +110,7 @@ const endpoint = import.meta.env.PUBLIC_API_URL;
           return;
         }
 
-        const res = await fetch(`${endpoint}short`, {
+        const res = await fetch("/api/short", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -139,7 +137,7 @@ const endpoint = import.meta.env.PUBLIC_API_URL;
       clipboardDefault[0].classList.add("hidden");
       clipboardSuccess[0].classList.remove("hidden");
 
-      const copyText = document.getElementById("shorturl");
+      const copyText = document.getElementById("shorturl") as HTMLSpanElement;
 
       navigator.clipboard.writeText(copyText.innerText);
 
